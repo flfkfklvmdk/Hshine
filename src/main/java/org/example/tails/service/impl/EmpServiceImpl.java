@@ -8,6 +8,7 @@ import org.example.tails.pojo.emp.Emp;
 import org.example.tails.pojo.emp.EmpExpr;
 import org.example.tails.pojo.emp.EmpLog;
 import org.example.tails.pojo.emp.EmpQueryParam;
+import org.example.tails.pojo.login.LoginInfo;
 import org.example.tails.pojo.utils.PageResult;
 import org.example.tails.service.EmpLogService;
 import org.example.tails.service.EmpService;
@@ -101,6 +102,16 @@ public class EmpServiceImpl implements EmpService {
             exprList.forEach(empExpr -> empExpr.setEmpId(empId));
             empExprMapper.insertBatch(exprList);
         }
+    }
+
+    @Override
+    public LoginInfo login(Emp emp) {
+        Emp empLogin = empMapper.getUsernameAndPassword(emp);
+        if(empLogin != null){
+            LoginInfo loginInfo = new LoginInfo(empLogin.getId(), empLogin.getUsername(), empLogin.getName(), null);
+            return loginInfo;
+        }
+        return null;
     }
 
 

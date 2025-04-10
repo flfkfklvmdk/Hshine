@@ -2,6 +2,7 @@ package org.example.tails.service;
 
 import org.example.tails.pojo.emp.Emp;
 import org.example.tails.pojo.emp.EmpQueryParam;
+import org.example.tails.pojo.login.LoginInfo;
 import org.example.tails.pojo.utils.PageResult;
 
 import java.util.List;
@@ -35,5 +36,7 @@ public interface EmpService {
      */
     //PageResult<Emp> page(Integer page, Integer pageSize, String name, Integer gender, LocalDate begin, LocalDate end);
 
+    //登录
 
+    LoginInfo login(Emp emp);
 }
