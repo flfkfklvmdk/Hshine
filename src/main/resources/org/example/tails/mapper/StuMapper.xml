@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.tails.mapper.StuMapper">
+
+    <!--更新学生信息-->
+    <update id="update">
+        update student
+        SET id = #{id},
+        name = #{name},
+        no = #{no},
+        phone = #{phone},
+        gender = #{gender},
+        degree = #{degree},
+        id_card = #{idCard},
+        is_college = #{isCollege},
+        address = #{address},
+        graduation_date = #{graduationDate},
+        violation_count = #{violationCount},
+        violation_score = #{violationScore},
+        clazz_id = #{clazzId},
+        update_time = #{updateTime}
+        where id = #{id}
+    </update>
+    <select id="countClassData" resultType="java.util.Map">
+        select
+        c.name as name,
+        count(s.id) as value
+        from clazz c
+        left join student s on c.id = s.clazz_id
+        <!-- 移除过滤条件，查看是否有其他班级数据 -->
+        <!-- where c.name like 'Java就业%' -->
+        group by c.id, c.name
+        order by c.id
+    </select>
+
+    <!--日统计学员学历信息-->
+    <select id="countStudentDegreeData" resultType="java.util.Map">
+        select
+        (case degree
+        when 1 then '初中'
+        when 2 then '高中'
+        when 3 then '大专'
+        when 4 then '本科'
+        when 5 then '硕士'
+        else '其他'
+        end) as name,
+        count(*) as value
+        from student
+        group by degree
+        order by degree
+    </select>
+
+    <!--批量删除学生信息-->
+    <delete id="deleteByIds">
+        delete from student where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--分页查询-->
+    <select id="list" resultType="org.example.tails.pojo.stu.Student">
+    select s.*, c.name clazzName
+    from student s left join clazz c on s.clazz_id = c.id
+    <where>
+        <if test="name != null and name != ''">
+            s.name like concat('%',#{name},'%')
+        </if>
+        <if test="clazzId != null">
+            and s.clazz_id = #{clazzId}
+        </if>
+    </where>
+    order by s.update_time desc
+    </select>
+    <!-- 移除分页参数部分，让PageHelper自动处理 -->
+
+</mapper>

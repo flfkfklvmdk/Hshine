@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: tlias-web-management
+    #spring事务管理日志
+  #mysql????
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/tails
+    username: root
+    password: wang5874579%
+pagehelper:
+  reasonable: true
+  helper-dialect: mysql
+#Mybatis的相关配置
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #开启驼峰命名映射开关
+    map-underscore-to-camel-case: true
+servlet:
+    multipart:
+        max-file-size: 10MB
+        max-request-size: 100MB
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: student-management-cumt1
+    region: cn-beijing
