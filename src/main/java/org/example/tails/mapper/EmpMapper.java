@@ -34,6 +34,7 @@ public interface EmpMapper {
      */
     public List<Emp> list(EmpQueryParam empQueryParam);
 
+
     /**
      * 添加员工
      */
